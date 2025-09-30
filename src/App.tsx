@@ -1,32 +1,15 @@
-import "./App.css";
+import TodoForm from "./components/TodoForm";
+import TodoList from "./components/TodoList";
 
 function App() {
-  // const [count, setCount] = useState(0)
-
-  const todos = [
-    { id: 1, text: "Learn React", completed: false },
-    { id: 2, text: "Learn Vite", completed: false },
-    { id: 3, text: "Build a Todo App", completed: false },
-  ];
-
   return (
-    <>
-      <h1>hello worlds</h1>
-      <ul>
-        {todos.map((todo) => (
-          <li key={todo.id}>
-            <input
-              type="checkbox"
-              checked={todo.completed}
-              onChange={() => {
-                // handle checkbox change
-              }}
-            />
-            {todo.text}
-          </li>
-        ))}
-      </ul>
-    </>
+    <div
+      style={{ maxWidth: "400px", margin: "2rem auto", textAlign: "center" }}
+    >
+      <h2>Redux Todo App</h2>
+      <TodoForm />
+      <TodoList />
+    </div>
   );
 }
 
