@@ -1,20 +1,48 @@
-import { createStore, type StoreEnhancer } from "redux";
+import {
+  legacy_createStore as createStore,
+  applyMiddleware,
+  compose,
+} from "redux";
 import { todoReducer } from "./reducer";
+import type { TodoState } from "./types";
 
-// Extend the Window interface to include __REDUX_DEVTOOLS_EXTENSION__
+const loadState = (): TodoState | undefined => {
+  try {
+    const serialized = localStorage.getItem("todos");
+    if (!serialized) return undefined;
+    return JSON.parse(serialized) as TodoState;
+  } catch {
+    return undefined;
+  }
+};
+
+const saveState = (state: TodoState) => {
+  try {
+    localStorage.setItem("todos", JSON.stringify(state));
+  } catch {
+    /* empty */
+  }
+};
+
+const persistedState = loadState();
+
 declare global {
   interface Window {
-    __REDUX_DEVTOOLS_EXTENSION__?: () => unknown;
+    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
   }
 }
 
-const store = createStore(
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+export const store = createStore(
   todoReducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ &&
-    (window.__REDUX_DEVTOOLS_EXTENSION__() as StoreEnhancer<object, object>)
+  persistedState,
+  composeEnhancers(applyMiddleware())
 );
+
+store.subscribe(() => {
+  saveState(store.getState());
+});
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
-
-export default store;

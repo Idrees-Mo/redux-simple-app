@@ -4,7 +4,10 @@ import TodoItem from "./TodoItem";
 import type { Todo } from "../redux/types";
 
 const TodoList: React.FC = () => {
-  const { todos, loading, error } = useAppSelector((state) => state);
+  const todos = useAppSelector((state) => state.todos);
+  const loading = useAppSelector((state) => state.loading);
+  const error = useAppSelector((state) => state.error);
+
   const dispatch = useAppDispatch();
 
   useEffect(() => {
