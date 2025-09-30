@@ -5,6 +5,7 @@ import {
 } from "redux";
 import { todoReducer } from "./reducer";
 import type { TodoState } from "./types";
+import { thunk } from "redux-thunk";
 
 const loadState = (): TodoState | undefined => {
   try {
@@ -37,7 +38,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 export const store = createStore(
   todoReducer,
   persistedState,
-  composeEnhancers(applyMiddleware())
+  composeEnhancers(applyMiddleware(thunk))
 );
 
 store.subscribe(() => {

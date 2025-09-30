@@ -3,6 +3,7 @@ import { useAppSelector, useAppDispatch } from "../redux/hooks";
 import TodoItem from "./TodoItem";
 import type { Todo } from "../redux/types";
 import { selectError, selectLoading, selectTodos } from "../redux/selectors";
+import { fetchTodos } from "../redux/actions";
 
 const TodoList: React.FC = () => {
   // slice selectors
@@ -13,7 +14,7 @@ const TodoList: React.FC = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    // dispatch(fetchTodos());
+    dispatch(fetchTodos());
   }, [dispatch]);
 
   if (loading) return <p>Loading todos...</p>;
