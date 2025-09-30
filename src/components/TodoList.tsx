@@ -2,11 +2,13 @@ import React, { useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "../redux/hooks";
 import TodoItem from "./TodoItem";
 import type { Todo } from "../redux/types";
+import { selectError, selectLoading, selectTodos } from "../redux/selectors";
 
 const TodoList: React.FC = () => {
-  const todos = useAppSelector((state) => state.todos);
-  const loading = useAppSelector((state) => state.loading);
-  const error = useAppSelector((state) => state.error);
+  // slice selectors
+  const todos = useAppSelector(selectTodos);
+  const loading = useAppSelector(selectLoading);
+  const error = useAppSelector(selectError);
 
   const dispatch = useAppDispatch();
 
@@ -18,7 +20,9 @@ const TodoList: React.FC = () => {
   if (error) return <p style={{ color: "red" }}>Error: {error}</p>;
 
   return (
-    <ul>
+    <ul
+      style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+    >
       {todos.length === 0 && <p>No todos yet!</p>}
       {todos.map((todo: Todo) => (
         <TodoItem key={todo.id} todo={todo} />
