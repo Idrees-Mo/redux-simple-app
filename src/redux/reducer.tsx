@@ -2,8 +2,11 @@ import {
   ADD_TODO,
   TOGGLE_TODO,
   DELETE_TODO,
-  type TodoAction as TodoAction,
+  FETCH_TODOS_REQUEST,
+  FETCH_TODOS_SUCCESS,
+  FETCH_TODOS_FAILURE,
   type TodoState,
+  type TodoAction,
 } from "./types";
 
 const initialState: TodoState = {
@@ -41,6 +44,12 @@ export const todoReducer = (
         ...state,
         todos: state.todos.filter((todo) => todo.id !== action.payload),
       };
+    case FETCH_TODOS_REQUEST:
+      return { ...state, loading: true, error: null };
+    case FETCH_TODOS_SUCCESS:
+      return { ...state, loading: false, todos: action.payload };
+    case FETCH_TODOS_FAILURE:
+      return { ...state, loading: false, error: action.payload };
     default:
       return state;
   }
