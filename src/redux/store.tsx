@@ -8,8 +8,13 @@ declare global {
   }
 }
 
-export const store = createStore(
+const store = createStore(
   todoReducer,
   window.__REDUX_DEVTOOLS_EXTENSION__ &&
     (window.__REDUX_DEVTOOLS_EXTENSION__() as StoreEnhancer<object, object>)
 );
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+
+export default store;

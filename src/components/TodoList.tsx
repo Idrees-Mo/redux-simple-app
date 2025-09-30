@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "../redux/hooks";
 import TodoItem from "./TodoItem";
+import type { Todo } from "../redux/types";
 
 const TodoList: React.FC = () => {
   const { todos, loading, error } = useAppSelector((state) => state);
@@ -16,7 +17,7 @@ const TodoList: React.FC = () => {
   return (
     <ul>
       {todos.length === 0 && <p>No todos yet!</p>}
-      {todos.map((todo) => (
+      {todos.map((todo: Todo) => (
         <TodoItem key={todo.id} todo={todo} />
       ))}
     </ul>
