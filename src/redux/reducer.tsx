@@ -25,6 +25,8 @@ export const todoReducer = (
     case ADD_TODO:
       return {
         ...state,
+        error: null,
+        loading: false,
         todos: [
           ...state.todos,
           { id: nextId++, text: action.payload, completed: false },
@@ -33,6 +35,8 @@ export const todoReducer = (
     case TOGGLE_TODO:
       return {
         ...state,
+        error: null,
+        loading: false,
         todos: state.todos.map((todo) =>
           todo.id === action.payload
             ? { ...todo, completed: !todo.completed }
@@ -42,12 +46,18 @@ export const todoReducer = (
     case DELETE_TODO:
       return {
         ...state,
+        error: null,
+        loading: false,
         todos: state.todos.filter((todo) => todo.id !== action.payload),
       };
     case FETCH_TODOS_REQUEST:
       return { ...state, loading: true, error: null };
     case FETCH_TODOS_SUCCESS:
-      return { ...state, loading: false, todos: action.payload };
+      return {
+        ...state,
+        loading: false,
+        todos: [...state.todos, ...action.payload],
+      };
     case FETCH_TODOS_FAILURE:
       return { ...state, loading: false, error: action.payload };
     default:
